@@ -1,0 +1,86 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="rg" x1="20%" y1="0%" x2="80%" y2="100%">
+      <stop offset="0%"   stop-color="#FF1888"/>
+      <stop offset="45%"  stop-color="#CC33FF"/>
+      <stop offset="100%" stop-color="#2299FF"/>
+    </linearGradient>
+    <linearGradient id="mg" x1="0%" y1="0%" x2="10%" y2="100%">
+      <stop offset="0%"   stop-color="#FF4499"/>
+      <stop offset="100%" stop-color="#6611CC"/>
+    </linearGradient>
+    <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#2299FF"/>
+      <stop offset="50%"  stop-color="#9933FF"/>
+      <stop offset="100%" stop-color="#FF1888"/>
+    </linearGradient>
+    <linearGradient id="wl" x1="0%" y1="0%" x2="100%" y2="80%">
+      <stop offset="0%"   stop-color="#2299FF"/>
+      <stop offset="100%" stop-color="#FF1888"/>
+    </linearGradient>
+    <linearGradient id="wr" x1="100%" y1="0%" x2="0%" y2="80%">
+      <stop offset="0%"   stop-color="#2299FF"/>
+      <stop offset="100%" stop-color="#FF1888"/>
+    </linearGradient>
+    <radialGradient id="bgr" cx="50%" cy="40%" r="60%">
+      <stop offset="0%"   stop-color="#2a0838"/>
+      <stop offset="50%"  stop-color="#100418"/>
+      <stop offset="100%" stop-color="#04010a"/>
+    </radialGradient>
+    <radialGradient id="halo" cx="50%" cy="44%" r="55%">
+      <stop offset="0%"   stop-color="#8822BB" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#8822BB" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glowOnly">
+      <feGaussianBlur stdDeviation="8" result="b"/>
+      <feMergeNode in="b"/>
+    </filter>
+    <filter id="ringGlowOnly">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <!-- Ring glows -->
+  <circle cx="200" cy="200" r="178" fill="none" stroke="#FF1888" stroke-width="22" opacity="0.2" filter="url(#ringGlowOnly)"/>
+  <circle cx="200" cy="200" r="178" fill="none" stroke="#2299FF" stroke-width="18" opacity="0.15" filter="url(#ringGlowOnly)"/>
+  <!-- Main ring -->
+  <circle cx="200" cy="200" r="178" fill="none" stroke="url(#rg)" stroke-width="4"/>
+  <!-- Inner background -->
+  <circle cx="200" cy="200" r="174" fill="url(#bgr)"/>
+  <!-- Halo -->
+  <ellipse cx="200" cy="192" rx="120" ry="115" fill="url(#halo)"/>
+
+  <!-- Left waves -->
+  <path d="M 148,185 Q 128,210 148,235" fill="none" stroke="url(#wl)" stroke-width="12" stroke-linecap="round" opacity="0.4" filter="url(#glowOnly)"/>
+  <path d="M 148,185 Q 128,210 148,235" fill="none" stroke="url(#wl)" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M 122,166 Q 96,210 122,254"  fill="none" stroke="url(#wl)" stroke-width="10" stroke-linecap="round" opacity="0.3" filter="url(#glowOnly)"/>
+  <path d="M 122,166 Q 96,210 122,254"  fill="none" stroke="url(#wl)" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Right waves -->
+  <path d="M 252,185 Q 272,210 252,235" fill="none" stroke="url(#wr)" stroke-width="12" stroke-linecap="round" opacity="0.4" filter="url(#glowOnly)"/>
+  <path d="M 252,185 Q 272,210 252,235" fill="none" stroke="url(#wr)" stroke-width="4.5" stroke-linecap="round"/>
+  <path d="M 278,166 Q 304,210 278,254" fill="none" stroke="url(#wr)" stroke-width="10" stroke-linecap="round" opacity="0.3" filter="url(#glowOnly)"/>
+  <path d="M 278,166 Q 304,210 278,254" fill="none" stroke="url(#wr)" stroke-width="3.5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Mic body glow -->
+  <rect x="174" y="122" width="52" height="84" rx="26" fill="url(#mg)" opacity="0.5" filter="url(#glowOnly)"/>
+  <!-- Mic body -->
+  <rect x="174" y="122" width="52" height="84" rx="26" fill="url(#mg)"/>
+  <!-- Mic shine -->
+  <rect x="182" y="132" width="14" height="30" rx="7" fill="#ffffff" opacity="0.25"/>
+
+  <!-- Mic arc glow -->
+  <path d="M 158,196 Q 158,250 200,250 Q 242,250 242,196" fill="none" stroke="url(#sg)" stroke-width="14" stroke-linecap="round" opacity="0.35" filter="url(#glowOnly)"/>
+  <!-- Mic arc -->
+  <path d="M 158,196 Q 158,250 200,250 Q 242,250 242,196" fill="none" stroke="url(#sg)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Stand glow -->
+  <line x1="200" y1="250" x2="200" y2="272" stroke="url(#sg)" stroke-width="12" stroke-linecap="round" opacity="0.3" filter="url(#glowOnly)"/>
+  <!-- Stand -->
+  <line x1="200" y1="250" x2="200" y2="272" stroke="url(#sg)" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Base glow -->
+  <line x1="170" y1="272" x2="230" y2="272" stroke="url(#sg)" stroke-width="12" stroke-linecap="round" opacity="0.3" filter="url(#glowOnly)"/>
+  <!-- Base -->
+  <line x1="170" y1="272" x2="230" y2="272" stroke="url(#sg)" stroke-width="5" stroke-linecap="round"/>
+</svg>

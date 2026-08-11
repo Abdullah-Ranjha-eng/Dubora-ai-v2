@@ -68,7 +68,7 @@ const app = express();
 // breaks every CORS check.
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://transcripto-ai-863i.vercel.app",
+  "https://dubora-ai-v2.vercel.app",
 ];
 
 app.use(cors({

@@ -13,12 +13,12 @@
       <!-- Hero -->
       <div class="max-w-3xl mx-auto text-center mb-24">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-sm font-medium mb-8"
-          :class="theme.isDark ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400' : 'bg-cyan-50 border-cyan-200 text-cyan-600'">
+          :class="theme.isDark ? 'bg-pink-500/10 border-pink-500/30 text-pink-400' : 'bg-pink-50 border-pink-200 text-pink-600'">
           Our Story
         </div>
         <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6"
           :class="theme.isDark ? 'text-white' : 'text-gray-900'">
-          About <span class="bg-gradient-to-r from-pink-400 to-orange-400 bg-clip-text text-transparent">Dubora AI</span>
+          About <span class="bg-gradient-to-r from-orange-400 to-pink-400 bg-clip-text text-transparent">Dubora AI</span>
         </h1>
         <p class="text-xl leading-relaxed" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">
           A modern, AI-powered platform that makes video dubbing fast, accurate, and accessible to everyone — students, creators, teachers, and businesses.
@@ -28,7 +28,7 @@
       <!-- Mission -->
       <div class="max-w-4xl mx-auto mb-24 grid md:grid-cols-2 gap-8 items-center">
         <div>
-          <p class="text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-3">Why we built this</p>
+          <p class="text-xs font-semibold text-orange-400 tracking-widest uppercase mb-3">Why we built this</p>
           <h2 class="text-3xl font-bold mb-5" :class="theme.isDark ? 'text-white' : 'text-gray-900'">Dubbing shouldn't need a studio</h2>
           <p class="leading-relaxed mb-4" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">
             Every time someone wants to reach an audience in another language — a lecture, a tutorial, a business presentation — they face the same problem: real dubbing is slow, expensive, and normally means hiring voice actors per language.
@@ -40,7 +40,7 @@
         <div class="grid grid-cols-2 gap-4">
           <div v-for="p in pillars" :key="p.title"
             class="border rounded-2xl p-5 transition-colors"
-            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-indigo-500/40' : 'bg-white border-gray-200 hover:border-indigo-300 shadow-sm'">
+            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-orange-500/40' : 'bg-white border-gray-200 hover:border-orange-300 shadow-sm'">
             <div class="text-2xl mb-3">{{ p.icon }}</div>
             <h3 class="font-semibold text-sm mb-1" :class="theme.isDark ? 'text-white' : 'text-gray-900'">{{ p.title }}</h3>
             <p class="text-xs leading-relaxed" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">{{ p.desc }}</p>
@@ -50,12 +50,12 @@
 
       <!-- Tech stack -->
       <div class="max-w-4xl mx-auto mb-24">
-        <p class="text-center text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-4">Under the hood</p>
+        <p class="text-center text-xs font-semibold text-orange-400 tracking-widest uppercase mb-4">Under the hood</p>
         <h2 class="text-center text-3xl font-bold mb-12" :class="theme.isDark ? 'text-white' : 'text-gray-900'">Built with modern technology</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
           <div v-for="t in tech" :key="t.name"
             class="flex items-center gap-3 border rounded-xl px-4 py-3 transition-colors"
-            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-indigo-500/30' : 'bg-white border-gray-200 hover:border-indigo-300 shadow-sm'">
+            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-orange-500/30' : 'bg-white border-gray-200 hover:border-orange-300 shadow-sm'">
             <span class="text-xl">{{ t.icon }}</span>
             <div>
               <div class="text-sm font-semibold" :class="theme.isDark ? 'text-white' : 'text-gray-900'">{{ t.name }}</div>
@@ -67,12 +67,12 @@
 
       <!-- Who it's for -->
       <div class="max-w-4xl mx-auto mb-24">
-        <p class="text-center text-xs font-semibold text-cyan-400 tracking-widest uppercase mb-4">Audience</p>
+        <p class="text-center text-xs font-semibold text-pink-400 tracking-widest uppercase mb-4">Audience</p>
         <h2 class="text-center text-3xl font-bold mb-12" :class="theme.isDark ? 'text-white' : 'text-gray-900'">Built for everyone who creates video</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
           <div v-for="a in audience" :key="a.label"
             class="text-center border rounded-2xl p-6 transition-colors"
-            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-cyan-500/30' : 'bg-white border-gray-200 hover:border-cyan-300 shadow-sm'">
+            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-pink-500/30' : 'bg-white border-gray-200 hover:border-pink-300 shadow-sm'">
             <div class="text-3xl mb-3">{{ a.icon }}</div>
             <div class="text-sm font-semibold" :class="theme.isDark ? 'text-white' : 'text-gray-900'">{{ a.label }}</div>
           </div>
@@ -81,16 +81,16 @@
 
       <!-- CTA -->
       <div class="max-w-xl mx-auto text-center border rounded-3xl p-12 backdrop-blur"
-        :class="theme.isDark ? 'bg-gradient-to-r from-indigo-600/20 to-cyan-500/10 border-indigo-500/20' : 'bg-gradient-to-r from-indigo-50 to-cyan-50 border-indigo-200'">
+        :class="theme.isDark ? 'bg-gradient-to-r from-orange-600/20 to-pink-500/10 border-orange-500/20' : 'bg-gradient-to-r from-orange-50 to-pink-50 border-orange-200'">
         <h2 class="text-2xl font-bold mb-4" :class="theme.isDark ? 'text-white' : 'text-gray-900'">Try it now — it's free</h2>
         <p class="mb-8 text-sm" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">No signup friction. Upload a video and get captions — and a full dub — in minutes.</p>
         <!-- REPLACE -->
 <RouterLink v-if="!auth.user" to="/register"
-  class="inline-block px-8 py-4 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 rounded-2xl font-bold text-white shadow-xl shadow-indigo-500/30 transition-all">
+  class="inline-block px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-2xl font-bold text-white shadow-xl shadow-orange-500/30 transition-all">
   Get Started Free →
 </RouterLink>
 <RouterLink v-else to="/upload"
-  class="inline-block px-8 py-4 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 rounded-2xl font-bold text-white shadow-xl shadow-indigo-500/30 transition-all">
+  class="inline-block px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-2xl font-bold text-white shadow-xl shadow-orange-500/30 transition-all">
   Upload a Video →
 </RouterLink>
       </div>

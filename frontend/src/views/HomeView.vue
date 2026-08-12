@@ -13,7 +13,7 @@
     <section class="relative w-full min-h-screen flex flex-col items-center justify-center pt-28 pb-16 px-6" style="z-index:2">
       <div class="w-full max-w-5xl mx-auto text-center">
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-sm font-medium mb-8"
-          :class="theme.isDark ? 'bg-pink-500/10 border-pink-500/30 text-orange-400' : 'bg-pink-50 border-pink-200 text-pink-600'">
+          :class="theme.isDark ? 'bg-orange-500/10 border-orange-500/30 text-orange-400' : 'bg-orange-50 border-orange-200 text-orange-600'">
           <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
           Powered by Groq Whisper + LLaMA 3.3 70B + ElevenLabs
         </div>
@@ -21,7 +21,7 @@
         <h1 class="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight tracking-tight mb-6"
           :class="theme.isDark ? 'text-white' : 'text-gray-900'">
           Your videos,<br>
-          <span class="bg-gradient-to-r from-pink-500 via-pink-400 to-orange-400 bg-clip-text text-transparent animate-gradient">
+          <span class="bg-gradient-to-r from-orange-400 via-pink-400 to-orange-400 bg-clip-text text-transparent animate-gradient">
             dubbed instantly
           </span>
         </h1>
@@ -39,7 +39,7 @@
          guestId) — the primary CTA goes straight to /upload. Login is only
          needed for the dashboard, so that becomes the secondary action. -->
     <RouterLink to="/upload"
-      class="group px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-400 hover:to-pink-400 rounded-2xl font-bold text-white text-lg shadow-2xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300 flex items-center gap-2">
+      class="group px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-2xl font-bold text-white text-lg shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-all duration-300 flex items-center gap-2">
       Upload a Video
       <span class="group-hover:translate-x-1 transition-transform">→</span>
     </RouterLink>
@@ -51,7 +51,7 @@
   </template>
   <template v-else>
     <RouterLink to="/dashboard"
-      class="group px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-400 hover:to-pink-400 rounded-2xl font-bold text-white text-lg shadow-2xl shadow-pink-500/30 hover:shadow-pink-500/50 transition-all duration-300 flex items-center gap-2">
+      class="group px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-2xl font-bold text-white text-lg shadow-2xl shadow-orange-500/30 hover:shadow-orange-500/50 transition-all duration-300 flex items-center gap-2">
       Go to Dashboard
       <span class="group-hover:translate-x-1 transition-transform">→</span>
     </RouterLink>
@@ -67,7 +67,7 @@
         <div class="grid grid-cols-3 gap-2 sm:gap-4 max-w-2xl mx-auto">
           <div v-for="s in stats" :key="s.label"
             class="rounded-2xl p-3 sm:p-5 text-center border backdrop-blur transition-colors"
-            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-indigo-500/40' : 'bg-white border-gray-200 hover:border-indigo-300 shadow-sm'">
+            :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-orange-500/40' : 'bg-white border-gray-200 hover:border-orange-300 shadow-sm'">
             <div class="text-xl sm:text-3xl font-extrabold mb-0.5 sm:mb-1"
               :class="theme.isDark ? 'text-white' : 'text-gray-900'">{{ s.value }}</div>
             <div class="text-[10px] sm:text-xs" :class="theme.isDark ? 'text-gray-500' : 'text-gray-500'">{{ s.label }}</div>
@@ -82,7 +82,7 @@
       <!-- How it works -->
       <section class="py-24 px-6">
         <div class="max-w-6xl mx-auto">
-          <p class="text-center text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-4">How it works</p>
+          <p class="text-center text-xs font-semibold text-orange-400 tracking-widest uppercase mb-4">How it works</p>
           <h2 class="text-center text-4xl font-bold mb-4"
             :class="theme.isDark ? 'text-white' : 'text-gray-900'">Four steps to a fully dubbed video</h2>
           <p class="text-center text-base max-w-xl mx-auto mb-16"
@@ -94,12 +94,12 @@
             <div v-for="(f, i) in features" :key="f.title"
               class="group border rounded-2xl p-6 transition-all duration-300 hover:-translate-y-1"
               :class="theme.isDark
-                ? 'bg-white/5 hover:bg-white/8 backdrop-blur border-white/10 hover:border-indigo-500/40 hover:shadow-lg hover:shadow-indigo-500/10'
-                : 'bg-white border-gray-200 hover:border-indigo-300 shadow-sm hover:shadow-md'">
-              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-600/40 to-cyan-500/20 border border-indigo-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
+                ? 'bg-white/5 hover:bg-white/8 backdrop-blur border-white/10 hover:border-orange-500/40 hover:shadow-lg hover:shadow-orange-500/10'
+                : 'bg-white border-gray-200 hover:border-orange-300 shadow-sm hover:shadow-md'">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-600/40 to-pink-500/20 border border-orange-500/30 flex items-center justify-center text-2xl mb-4 group-hover:scale-110 transition-transform">
                 {{ f.icon }}
               </div>
-              <div class="text-xs text-indigo-400 font-semibold mb-2">0{{ i + 1 }}</div>
+              <div class="text-xs text-orange-400 font-semibold mb-2">0{{ i + 1 }}</div>
               <h3 class="font-bold mb-2" :class="theme.isDark ? 'text-white' : 'text-gray-900'">{{ f.title }}</h3>
               <p class="text-sm leading-relaxed" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">{{ f.desc }}</p>
             </div>
@@ -109,9 +109,9 @@
 
       <!-- Why choose us -->
       <section class="py-24 px-6"
-        :class="theme.isDark ? 'bg-indigo-950/20' : 'bg-indigo-50/60'">
+        :class="theme.isDark ? 'bg-orange-950/20' : 'bg-orange-50/60'">
         <div class="max-w-6xl mx-auto">
-          <p class="text-center text-xs font-semibold text-cyan-400 tracking-widest uppercase mb-4">Why Dubora AI</p>
+          <p class="text-center text-xs font-semibold text-pink-400 tracking-widest uppercase mb-4">Why Dubora AI</p>
           <h2 class="text-center text-4xl font-bold mb-4"
             :class="theme.isDark ? 'text-white' : 'text-gray-900'">Everything you need, nothing you don't</h2>
           <p class="text-center text-base max-w-xl mx-auto mb-16"
@@ -122,7 +122,7 @@
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div v-for="w in whyUs" :key="w.title"
               class="border rounded-2xl p-6 transition-colors"
-              :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-indigo-500/30' : 'bg-white border-gray-200 hover:border-indigo-200 shadow-sm'">
+              :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-orange-500/30' : 'bg-white border-gray-200 hover:border-orange-200 shadow-sm'">
               <div class="text-3xl mb-4">{{ w.icon }}</div>
               <h3 class="font-bold mb-2" :class="theme.isDark ? 'text-white' : 'text-gray-900'">{{ w.title }}</h3>
               <p class="text-sm leading-relaxed" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">{{ w.desc }}</p>
@@ -134,7 +134,7 @@
       <!-- Testimonials / use cases -->
       <section class="py-24 px-6">
         <div class="max-w-6xl mx-auto">
-          <p class="text-center text-xs font-semibold text-indigo-400 tracking-widest uppercase mb-4">Use Cases</p>
+          <p class="text-center text-xs font-semibold text-orange-400 tracking-widest uppercase mb-4">Use Cases</p>
           <h2 class="text-center text-4xl font-bold mb-16"
             :class="theme.isDark ? 'text-white' : 'text-gray-900'">Built for creators of all kinds</h2>
 
@@ -144,7 +144,7 @@
               :class="theme.isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200 shadow-sm'">
               <div class="text-4xl shrink-0">{{ u.icon }}</div>
               <div>
-                <div class="text-xs font-semibold text-indigo-400 mb-1 uppercase tracking-wider">{{ u.role }}</div>
+                <div class="text-xs font-semibold text-orange-400 mb-1 uppercase tracking-wider">{{ u.role }}</div>
                 <p class="text-sm leading-relaxed" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">{{ u.quote }}</p>
               </div>
             </div>
@@ -156,7 +156,7 @@
       <section class="py-24 px-6"
         :class="theme.isDark ? 'bg-gray-900/30' : 'bg-gray-100/60'">
         <div class="max-w-4xl mx-auto text-center">
-          <p class="text-xs font-semibold text-cyan-400 tracking-widest uppercase mb-4">Multilingual</p>
+          <p class="text-xs font-semibold text-pink-400 tracking-widest uppercase mb-4">Multilingual</p>
           <h2 class="text-4xl font-bold mb-4"
             :class="theme.isDark ? 'text-white' : 'text-gray-900'">12 languages. One click.</h2>
           <p class="text-base mb-12"
@@ -166,7 +166,7 @@
           <div class="flex flex-wrap justify-center gap-3">
             <span v-for="lang in languages" :key="lang"
               class="px-4 py-2 rounded-xl text-sm font-medium border transition-colors"
-              :class="theme.isDark ? 'bg-white/5 border-white/10 text-gray-300 hover:border-indigo-500/40' : 'bg-white border-gray-200 text-gray-700 hover:border-indigo-300 shadow-sm'">
+              :class="theme.isDark ? 'bg-white/5 border-white/10 text-gray-300 hover:border-orange-500/40' : 'bg-white border-gray-200 text-gray-700 hover:border-orange-300 shadow-sm'">
               {{ lang }}
             </span>
           </div>
@@ -176,7 +176,7 @@
       <!-- CTA -->
       <section class="py-24 px-6">
         <div class="max-w-2xl mx-auto text-center border rounded-3xl p-12 backdrop-blur"
-          :class="theme.isDark ? 'bg-gradient-to-r from-indigo-600/20 to-cyan-500/10 border-indigo-500/20' : 'bg-gradient-to-r from-indigo-50 to-cyan-50 border-indigo-200'">
+          :class="theme.isDark ? 'bg-gradient-to-r from-orange-600/20 to-pink-500/10 border-orange-500/20' : 'bg-gradient-to-r from-orange-50 to-pink-50 border-orange-200'">
           <h2 class="text-3xl font-bold mb-4"
             :class="theme.isDark ? 'text-white' : 'text-gray-900'">Ready to dub your video?</h2>
           <p class="mb-8" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">
@@ -184,11 +184,11 @@
           </p>
           <!-- REPLACE WITH -->
 <RouterLink v-if="!auth.user" to="/register"
-  class="inline-block px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-400 hover:to-pink-400 rounded-2xl font-bold text-white shadow-xl shadow-pink-500/30 transition-all duration-300">
+  class="inline-block px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-2xl font-bold text-white shadow-xl shadow-orange-500/30 transition-all duration-300">
   Create Free Account →
 </RouterLink>
 <RouterLink v-else to="/upload"
-  class="inline-block px-8 py-4 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-400 hover:to-pink-400 rounded-2xl font-bold text-white shadow-xl shadow-pink-500/30 transition-all duration-300">
+  class="inline-block px-8 py-4 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-2xl font-bold text-white shadow-xl shadow-orange-500/30 transition-all duration-300">
   Upload a Video →
 </RouterLink>
         </div>

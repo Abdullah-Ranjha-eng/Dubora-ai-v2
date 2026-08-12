@@ -7,54 +7,83 @@
         <!-- Brand -->
         <div>
           <RouterLink to="/" class="flex items-center gap-2.5 mb-4 w-fit">
-            <!-- REPLACE WITH -->
-<svg viewBox="0 0 280 300" class="h-8 w-auto" xmlns="http://www.w3.org/2000/svg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="w-10 h-10 sm:w-10 sm:h-10 shrink-0" aria-label="Dubora AI logo">
   <defs>
-    <linearGradient id="ft-ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%"   stop-color="#FF2D78"/>
-      <stop offset="50%"  stop-color="#C84BF5"/>
-      <stop offset="100%" stop-color="#4B9EF5"/>
+    <linearGradient id="ft-orange" x1="15%" y1="5%" x2="90%" y2="95%">
+      <stop offset="0%" stop-color="#FFB84D"/>
+      <stop offset="55%" stop-color="#FF8A1E"/>
+      <stop offset="100%" stop-color="#F56600"/>
     </linearGradient>
-    <linearGradient id="ft-micGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%"   stop-color="#FF2D78"/>
-      <stop offset="100%" stop-color="#7B2FFF"/>
+    <linearGradient id="ft-ear" x1="20%" y1="5%" x2="85%" y2="95%">
+      <stop offset="0%" stop-color="#FFA33A"/>
+      <stop offset="100%" stop-color="#FF7615"/>
     </linearGradient>
-    <linearGradient id="ft-waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%"   stop-color="#FF2D78"/>
-      <stop offset="100%" stop-color="#4B9EF5"/>
+    <linearGradient id="ft-dark" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#B9400D"/>
+      <stop offset="100%" stop-color="#7A2E12"/>
     </linearGradient>
-    <radialGradient id="ft-innerBg" cx="50%" cy="50%" r="50%">
-      <stop offset="0%"   stop-color="#1a0a2e"/>
-      <stop offset="100%" stop-color="#080810"/>
-    </radialGradient>
-    <filter id="ft-glow">
-      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="ft-micGlow">
-      <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
-      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <linearGradient id="ft-bottom" x1="15%" y1="5%" x2="90%" y2="95%">
+      <stop offset="0%" stop-color="#FFD09E"/>
+      <stop offset="100%" stop-color="#FFA55D"/>
+    </linearGradient>
+    <linearGradient id="ft-play" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A1E"/>
+      <stop offset="100%" stop-color="#F05F00"/>
+    </linearGradient>
+    <filter id="ft-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#000000" flood-opacity=".13"/>
     </filter>
   </defs>
-  <circle cx="140" cy="150" r="108" fill="none" stroke="url(#ft-ringGrad)" stroke-width="1" opacity="0.3" filter="url(#ft-glow)"/>
-  <circle cx="140" cy="150" r="102" fill="none" stroke="url(#ft-ringGrad)" stroke-width="3.5" filter="url(#ft-glow)"/>
-  <circle cx="140" cy="150" r="97"  fill="url(#ft-innerBg)"/>
-  <path d="M 98,136 Q 88,150 98,164"   fill="none" stroke="url(#ft-waveGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#ft-glow)" opacity="0.9"/>
-  <path d="M 84,124 Q 68,150 84,176"   fill="none" stroke="url(#ft-waveGrad)" stroke-width="2"   stroke-linecap="round" filter="url(#ft-glow)" opacity="0.55"/>
-  <path d="M 182,136 Q 192,150 182,164" fill="none" stroke="url(#ft-waveGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#ft-glow)" opacity="0.9"/>
-  <path d="M 196,124 Q 212,150 196,176" fill="none" stroke="url(#ft-waveGrad)" stroke-width="2"   stroke-linecap="round" filter="url(#ft-glow)" opacity="0.55"/>
-  <rect x="126" y="112" width="28" height="44" rx="14" fill="url(#ft-micGrad)" filter="url(#ft-micGlow)"/>
-  <path d="M 112,152 Q 112,178 140,178 Q 168,178 168,152" fill="none" stroke="url(#ft-micGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#ft-glow)"/>
-  <line x1="140" y1="178" x2="140" y2="190" stroke="url(#ft-micGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#ft-glow)"/>
-  <line x1="126" y1="190" x2="154" y2="190" stroke="url(#ft-micGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#ft-glow)"/>
+
+  <!-- Left ear -->
+  <path d="M112 99
+           C80 82 43 94 30 125
+           C17 157 6 199 13 221
+           C21 248 49 251 66 238
+           C80 227 79 205 75 190
+           C68 163 76 135 99 118
+           C104 114 108 108 112 99Z"
+        fill="url(#ft-ear)" filter="url(#ft-shadow)"/>
+
+  <!-- Right ear -->
+  <path d="M228 99
+           C260 82 297 94 310 125
+           C323 157 334 199 327 221
+           C319 248 291 251 274 238
+           C260 227 261 205 265 190
+           C272 163 264 135 241 118
+           C236 114 232 108 228 99Z"
+        fill="url(#ft-ear)" filter="url(#ft-shadow)"/>
+
+  <!-- Bottom peach accent -->
+  <path d="M101 263
+           C85 277 82 300 91 319
+           C103 344 134 351 160 345
+           C186 339 204 321 207 298
+           C210 278 200 263 185 255
+           C169 247 151 250 137 260
+           C124 269 112 271 101 263Z"
+        fill="url(#ft-bottom)" filter="url(#ft-shadow)"/>
+
+  <!-- Main circular head -->
+  <circle cx="170" cy="164" r="101"
+          fill="url(#ft-orange)" filter="url(#ft-shadow)"/>
+
+  <!-- Dark inner ring -->
+  <circle cx="170" cy="164" r="68" fill="url(#ft-dark)"/>
+
+  <!-- White center -->
+  <circle cx="170" cy="164" r="57" fill="#FFFFFF"/>
+
+  <!-- Play triangle -->
+  <path d="M151 131 L151 197 L201 164 Z" fill="url(#ft-play)"/>
 </svg>
 <span class="font-extrabold text-lg" :class="theme.isDark ? 'text-white' : 'text-gray-900'">
-  Dub<span class="bg-gradient-to-r from-pink-500 via-orange-400 to-pink-500 bg-clip-text text-transparent">ora</span>
-  <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"> AI</span>
+  Dub<span class="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 bg-clip-text text-transparent">ora AI</span>
 </span>
           </RouterLink>
           <p class="text-sm leading-relaxed mb-5" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">
-            Your self-service AI dubbing toolkit. Free, fast, and private.
+            Dub any video with distinct AI voices per speaker. Free, fast, and private.
           </p>
           <!-- Social links -->
           <div class="flex items-center gap-3">
@@ -83,7 +112,7 @@
             <li v-for="l in toolLinks" :key="l.label">
               <RouterLink :to="l.to"
                 class="text-sm transition-colors duration-200"
-                :class="theme.isDark ? 'text-gray-400 hover:text-indigo-400' : 'text-gray-600 hover:text-indigo-600'">
+                :class="theme.isDark ? 'text-gray-400 hover:text-orange-400' : 'text-gray-600 hover:text-orange-600'">
                 {{ l.label }}
               </RouterLink>
             </li>
@@ -98,7 +127,7 @@
             <li v-for="l in companyLinks" :key="l.label">
               <RouterLink :to="l.to"
                 class="text-sm transition-colors duration-200"
-                :class="theme.isDark ? 'text-gray-400 hover:text-indigo-400' : 'text-gray-600 hover:text-indigo-600'">
+                :class="theme.isDark ? 'text-gray-400 hover:text-orange-400' : 'text-gray-600 hover:text-orange-600'">
                 {{ l.label }}
               </RouterLink>
             </li>
@@ -113,7 +142,7 @@
             <li v-for="l in resourceLinks" :key="l.label">
               <a :href="l.href" target="_blank" rel="noopener"
                 class="text-sm transition-colors duration-200"
-                :class="theme.isDark ? 'text-gray-400 hover:text-indigo-400' : 'text-gray-600 hover:text-indigo-600'">
+                :class="theme.isDark ? 'text-gray-400 hover:text-orange-400' : 'text-gray-600 hover:text-orange-600'">
                 {{ l.label }}
               </a>
             </li>

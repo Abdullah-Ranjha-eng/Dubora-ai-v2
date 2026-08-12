@@ -36,7 +36,7 @@ onMounted(() => {
       size: 2 + Math.random() * 3,
       speed: 0.003 + Math.random() * 0.006,
       phase: Math.random() * Math.PI * 2,
-      color: Math.random() > 0.5 ? "99,102,241" : "34,211,238",
+      color: Math.random() > 0.5 ? "255,122,26" : "255,45,120",
       alpha: 0.3 + Math.random() * 0.5,
     });
     particles[i].ox = particles[i].x;
@@ -49,7 +49,7 @@ const draw = () => {
   t += 0.008;
 
   const alphaMultiplier = theme.isDark ? 1 : 0.5;
-  const getColor = (p) => theme.isDark ? p.color : (p.color === "99,102,241" ? "67,56,202" : "15,23,42");
+  const getColor = (p) => theme.isDark ? p.color : (p.color === "255,122,26" ? "224,100,10" : "190,24,93");
 
   particles.forEach((p) => {
     p.x = p.ox + Math.sin(t * p.speed * 200 + p.phase) * 18;
@@ -80,7 +80,7 @@ const draw = () => {
         ctx.beginPath();
         ctx.moveTo(particles[i].x, particles[i].y);
         ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.strokeStyle = `rgba(67,56,202,${0.15 * alphaMultiplier * (1 - dist / 110)})`;
+        ctx.strokeStyle = `rgba(224,100,10,${0.15 * alphaMultiplier * (1 - dist / 110)})`;
         ctx.lineWidth = 0.8;
         ctx.stroke();
       }

@@ -10,14 +10,14 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
           <div>
-            <p class="text-indigo-400 text-sm font-medium mb-1">Welcome back, {{ auth.user?.name?.split(' ')[0] }} 👋</p>
+            <p class="text-orange-400 text-sm font-medium mb-1">Welcome back, {{ auth.user?.name?.split(' ')[0] }} 👋</p>
             <h1 class="text-4xl font-extrabold" :class="theme.isDark ? 'text-white' : 'text-gray-900'">My Videos</h1>
             <p class="text-sm mt-1" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">
               Manage your uploads, generate captions, and track progress.
             </p>
           </div>
           <RouterLink to="/upload"
-            class="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 rounded-xl font-semibold text-white text-sm shadow-lg shadow-indigo-500/30 transition-all w-fit">
+            class="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-xl font-semibold text-white text-sm shadow-lg shadow-orange-500/30 transition-all w-fit">
             <span class="text-lg leading-none">+</span> Upload Video
           </RouterLink>
         </div>
@@ -43,7 +43,7 @@
           <p class="mb-8" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">Upload your first video to get started with AI captions.</p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center">
             <RouterLink to="/upload"
-              class="inline-block px-6 py-3 bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 rounded-xl font-semibold text-sm text-white transition shadow-lg shadow-indigo-500/30">
+              class="inline-block px-6 py-3 bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 rounded-xl font-semibold text-sm text-white transition shadow-lg shadow-orange-500/30">
               Upload Now →
             </RouterLink>
             <RouterLink to="/about"
@@ -62,7 +62,7 @@
               @click="activeTab = tab"
               class="px-4 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200"
               :class="activeTab === tab
-                ? 'bg-indigo-600 text-white shadow-md shadow-indigo-500/30'
+                ? 'bg-orange-600 text-white shadow-md shadow-orange-500/30'
                 : (theme.isDark ? 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50')">
               {{ tab === 'all' ? 'All Videos' : tab.charAt(0).toUpperCase() + tab.slice(1) }}
               <span class="ml-1 opacity-70">({{ tab === 'all' ? store.videos.length : store.videos.filter(v => v.status === tab).length }})</span>
@@ -73,8 +73,8 @@
             <div v-for="v in filteredVideos" :key="v._id"
               class="group border rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
               :class="theme.isDark
-                ? 'bg-white/5 hover:bg-white/8 border-white/10 hover:border-indigo-500/50 hover:shadow-indigo-500/10'
-                : 'bg-white border-gray-200 hover:border-indigo-300 hover:shadow-indigo-100'">
+                ? 'bg-white/5 hover:bg-white/8 border-white/10 hover:border-orange-500/50 hover:shadow-orange-500/10'
+                : 'bg-white border-gray-200 hover:border-orange-300 hover:shadow-orange-100'">
 
               <RouterLink :to="`/video/${v._id}`">
                 <div class="relative aspect-video flex items-center justify-center overflow-hidden"
@@ -103,7 +103,7 @@
 
               <div class="p-4">
                 <RouterLink :to="`/video/${v._id}`"
-                  class="text-sm font-semibold truncate block mb-1 hover:text-indigo-400 transition-colors"
+                  class="text-sm font-semibold truncate block mb-1 hover:text-orange-400 transition-colors"
                   :class="theme.isDark ? 'text-white' : 'text-gray-900'">
                   {{ v.title }}
                 </RouterLink>
@@ -131,7 +131,7 @@
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div v-for="tip in tips" :key="tip.title"
               class="border rounded-2xl p-5 transition-colors"
-              :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-indigo-500/30' : 'bg-white border-gray-200 hover:border-indigo-200 shadow-sm'">
+              :class="theme.isDark ? 'bg-white/5 border-white/10 hover:border-orange-500/30' : 'bg-white border-gray-200 hover:border-orange-200 shadow-sm'">
               <div class="text-xl mb-2">{{ tip.icon }}</div>
               <h4 class="font-semibold text-sm mb-1" :class="theme.isDark ? 'text-white' : 'text-gray-900'">{{ tip.title }}</h4>
               <p class="text-xs leading-relaxed" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">{{ tip.desc }}</p>

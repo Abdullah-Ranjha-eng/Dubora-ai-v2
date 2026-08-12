@@ -6,70 +6,83 @@
         : 'bg-white/80 border-gray-200 shadow-gray-200/60'">
 
       <!-- Logo -->
-      <!-- REPLACE WITH -->
-<RouterLink to="/" class="flex items-center group" @click="mobileMenuOpen = false">
-  <svg viewBox="0 0 280 300" class="h-9 w-auto sm:h-12 transition-all duration-300 group-hover:scale-105" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="nb-ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%"   stop-color="#FF2D78"/>
-        <stop offset="50%"  stop-color="#C84BF5"/>
-        <stop offset="100%" stop-color="#4B9EF5"/>
-      </linearGradient>
-      <linearGradient id="nb-micGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%"   stop-color="#FF2D78"/>
-        <stop offset="100%" stop-color="#7B2FFF"/>
-      </linearGradient>
-      <linearGradient id="nb-waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%"   stop-color="#FF2D78"/>
-        <stop offset="100%" stop-color="#4B9EF5"/>
-      </linearGradient>
-      <radialGradient id="nb-innerBg" cx="50%" cy="50%" r="50%">
-        <stop offset="0%"   stop-color="#1a0a2e"/>
-        <stop offset="100%" stop-color="#080810"/>
-      </radialGradient>
-      <filter id="nb-glow">
-        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-      <filter id="nb-micGlow">
-        <feGaussianBlur stdDeviation="5" result="coloredBlur"/>
-        <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
+      <RouterLink to="/" class="flex items-center group" @click="mobileMenuOpen = false">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 340" class="w-9 h-9 sm:w-10 sm:h-10 shrink-0" aria-label="Dubora AI logo">
+  <defs>
+    <linearGradient id="nb-orange" x1="15%" y1="5%" x2="90%" y2="95%">
+      <stop offset="0%" stop-color="#FFB84D"/>
+      <stop offset="55%" stop-color="#FF8A1E"/>
+      <stop offset="100%" stop-color="#F56600"/>
+    </linearGradient>
+    <linearGradient id="nb-ear" x1="20%" y1="5%" x2="85%" y2="95%">
+      <stop offset="0%" stop-color="#FFA33A"/>
+      <stop offset="100%" stop-color="#FF7615"/>
+    </linearGradient>
+    <linearGradient id="nb-dark" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#B9400D"/>
+      <stop offset="100%" stop-color="#7A2E12"/>
+    </linearGradient>
+    <linearGradient id="nb-bottom" x1="15%" y1="5%" x2="90%" y2="95%">
+      <stop offset="0%" stop-color="#FFD09E"/>
+      <stop offset="100%" stop-color="#FFA55D"/>
+    </linearGradient>
+    <linearGradient id="nb-play" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8A1E"/>
+      <stop offset="100%" stop-color="#F05F00"/>
+    </linearGradient>
+    <filter id="nb-shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#000000" flood-opacity=".13"/>
+    </filter>
+  </defs>
 
-    <!-- Outer ring glow -->
-    <circle cx="140" cy="150" r="108" fill="none" stroke="url(#nb-ringGrad)" stroke-width="1" opacity="0.3" filter="url(#nb-glow)"/>
-    <!-- Main ring -->
-    <circle cx="140" cy="150" r="102" fill="none" stroke="url(#nb-ringGrad)" stroke-width="3.5" filter="url(#nb-glow)"/>
-    <!-- Inner background -->
-    <circle cx="140" cy="150" r="97" fill="url(#nb-innerBg)"/>
+  <!-- Left ear -->
+  <path d="M112 99
+           C80 82 43 94 30 125
+           C17 157 6 199 13 221
+           C21 248 49 251 66 238
+           C80 227 79 205 75 190
+           C68 163 76 135 99 118
+           C104 114 108 108 112 99Z"
+        fill="url(#nb-ear)" filter="url(#nb-shadow)"/>
 
-    <!-- Left sound waves -->
-    <path d="M 98,136 Q 88,150 98,164" fill="none" stroke="url(#nb-waveGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#nb-glow)" opacity="0.9"/>
-    <path d="M 84,124 Q 68,150 84,176" fill="none" stroke="url(#nb-waveGrad)" stroke-width="2"   stroke-linecap="round" filter="url(#nb-glow)" opacity="0.55"/>
+  <!-- Right ear -->
+  <path d="M228 99
+           C260 82 297 94 310 125
+           C323 157 334 199 327 221
+           C319 248 291 251 274 238
+           C260 227 261 205 265 190
+           C272 163 264 135 241 118
+           C236 114 232 108 228 99Z"
+        fill="url(#nb-ear)" filter="url(#nb-shadow)"/>
 
-    <!-- Right sound waves -->
-    <path d="M 182,136 Q 192,150 182,164" fill="none" stroke="url(#nb-waveGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#nb-glow)" opacity="0.9"/>
-    <path d="M 196,124 Q 212,150 196,176" fill="none" stroke="url(#nb-waveGrad)" stroke-width="2"   stroke-linecap="round" filter="url(#nb-glow)" opacity="0.55"/>
+  <!-- Bottom peach accent -->
+  <path d="M101 263
+           C85 277 82 300 91 319
+           C103 344 134 351 160 345
+           C186 339 204 321 207 298
+           C210 278 200 263 185 255
+           C169 247 151 250 137 260
+           C124 269 112 271 101 263Z"
+        fill="url(#nb-bottom)" filter="url(#nb-shadow)"/>
 
-    <!-- Mic body -->
-    <rect x="126" y="112" width="28" height="44" rx="14" fill="url(#nb-micGrad)" filter="url(#nb-micGlow)"/>
+  <!-- Main circular head -->
+  <circle cx="170" cy="164" r="101"
+          fill="url(#nb-orange)" filter="url(#nb-shadow)"/>
 
-    <!-- Mic arc -->
-    <path d="M 112,152 Q 112,178 140,178 Q 168,178 168,152" fill="none" stroke="url(#nb-micGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#nb-glow)"/>
+  <!-- Dark inner ring -->
+  <circle cx="170" cy="164" r="68" fill="url(#nb-dark)"/>
 
-    <!-- Mic stand -->
-    <line x1="140" y1="178" x2="140" y2="190" stroke="url(#nb-micGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#nb-glow)"/>
-    <line x1="126" y1="190" x2="154" y2="190" stroke="url(#nb-micGrad)" stroke-width="2.5" stroke-linecap="round" filter="url(#nb-glow)"/>
-  </svg>
+  <!-- White center -->
+  <circle cx="170" cy="164" r="57" fill="#FFFFFF"/>
 
-  <!-- Wordmark -->
-  <span class="ml-2 font-extrabold tracking-tight text-base sm:text-lg leading-none"
-    :class="theme.isDark ? 'text-white' : 'text-gray-900'">
-    Dub<span class="bg-gradient-to-r from-pink-500 via-orange-400 to-pink-500 bg-clip-text text-transparent">ora</span>
-    <span class="bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 bg-clip-text text-transparent"> AI</span>
-  </span>
-</RouterLink>
+  <!-- Play triangle -->
+  <path d="M151 131 L151 197 L201 164 Z" fill="url(#nb-play)"/>
+</svg>
+        <span class="ml-2 font-extrabold tracking-tight text-base sm:text-lg leading-none"
+          :class="theme.isDark ? 'text-white' : 'text-gray-900'">
+          Dub<span class="bg-gradient-to-r from-orange-500 via-pink-500 to-purple-500 bg-clip-text text-transparent">ora AI</span>
+        </span>
+      </RouterLink>
 
       <!-- Center links (desktop only) -->
       <div class="hidden md:flex items-center gap-1">
@@ -96,7 +109,7 @@
         <div class="hidden md:flex items-center gap-2">
           <template v-if="auth.user">
             <span class="hidden sm:flex items-center gap-2 text-sm" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">
-              <div class="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-xs font-bold text-white">
+              <div class="w-7 h-7 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white">
                 {{ auth.user.name[0].toUpperCase() }}
               </div>
               {{ auth.user.name.split(' ')[0] }}
@@ -114,7 +127,7 @@
               Sign In
             </RouterLink>
             <RouterLink to="/upload"
-              class="px-4 py-1.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all duration-200">
+              class="px-4 py-1.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 transition-all duration-200">
               Upload
             </RouterLink>
           </template>
@@ -163,7 +176,7 @@
 
         <template v-if="auth.user">
           <div class="flex items-center gap-2 px-4 py-2 text-sm" :class="theme.isDark ? 'text-gray-400' : 'text-gray-600'">
-            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-xs font-bold text-white">
+            <div class="w-7 h-7 rounded-full bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-xs font-bold text-white">
               {{ auth.user.name[0].toUpperCase() }}
             </div>
             {{ auth.user.name }}
@@ -181,7 +194,7 @@
             Sign In
           </RouterLink>
           <RouterLink to="/upload" @click="mobileMenuOpen = false"
-            class="block text-center mt-1 px-4 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 shadow-lg shadow-indigo-500/30 transition-all duration-200">
+            class="block text-center mt-1 px-4 py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 shadow-lg shadow-orange-500/30 transition-all duration-200">
             Upload
           </RouterLink>
         </template>

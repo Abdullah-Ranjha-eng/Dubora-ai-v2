@@ -2,7 +2,7 @@
   <div class="min-h-screen flex items-center justify-center px-4 py-20">
     <div class="w-full max-w-md">
       <div class="text-center mb-8">
-        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-400 flex items-center justify-center text-2xl mx-auto mb-4 shadow-lg shadow-indigo-500/30">🎙️</div>
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-pink-500 flex items-center justify-center text-2xl mx-auto mb-4 shadow-lg shadow-orange-500/30">🎙️</div>
         <h2 class="text-3xl font-extrabold mb-1" :class="theme.isDark ? 'text-white' : 'text-gray-900'">Create your account</h2>
         <p class="text-sm" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">Free forever — no credit card required</p>
       </div>
@@ -18,23 +18,23 @@
           <div>
             <label class="block text-sm font-medium mb-1.5" :class="theme.isDark ? 'text-gray-300' : 'text-gray-700'">Name</label>
             <input v-model="name" type="text" required placeholder="Your name"
-              class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
               :class="theme.isDark ? 'bg-gray-800 border border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'" />
           </div>
           <div>
             <label class="block text-sm font-medium mb-1.5" :class="theme.isDark ? 'text-gray-300' : 'text-gray-700'">Email</label>
             <input v-model="email" type="email" required placeholder="you@example.com"
-              class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
               :class="theme.isDark ? 'bg-gray-800 border border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'" />
           </div>
           <div>
             <label class="block text-sm font-medium mb-1.5" :class="theme.isDark ? 'text-gray-300' : 'text-gray-700'">Password</label>
             <input v-model="password" type="password" required placeholder="Min 6 characters"
-              class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              class="w-full rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
               :class="theme.isDark ? 'bg-gray-800 border border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'" />
           </div>
           <button type="submit" :disabled="auth.loading"
-            class="w-full bg-gradient-to-r from-indigo-600 to-cyan-500 hover:from-indigo-500 hover:to-cyan-400 disabled:opacity-50 rounded-xl py-3 font-bold text-sm text-white transition shadow-lg shadow-indigo-500/30">
+            class="w-full bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 disabled:opacity-50 rounded-xl py-3 font-bold text-sm text-white transition shadow-lg shadow-orange-500/30">
             {{ auth.loading ? "Creating…" : "Create Free Account →" }}
           </button>
         </form>
@@ -42,7 +42,7 @@
 
       <p class="mt-6 text-center text-sm" :class="theme.isDark ? 'text-gray-500' : 'text-gray-600'">
         Already have an account?
-        <RouterLink to="/login" class="text-indigo-400 hover:underline font-medium">Sign in</RouterLink>
+        <RouterLink to="/login" class="text-orange-400 hover:underline font-medium">Sign in</RouterLink>
       </p>
     </div>
   </div>

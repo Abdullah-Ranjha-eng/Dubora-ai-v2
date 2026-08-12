@@ -4,7 +4,7 @@
 
     <template v-else-if="store.currentVideo">
       <div class="flex items-center gap-3 mb-6">
-        <RouterLink to="/dashboard" class="text-sm text-gray-500 hover:text-white">← Dashboard</RouterLink>
+        <RouterLink to="/dashboard" class="text-sm text-gray-500 hover:text-orange-400">← Dashboard</RouterLink>
         <span class="text-gray-700">/</span>
         <h1 class="text-xl font-bold truncate">{{ store.currentVideo.title }}</h1>
         <span class="text-xs px-2 py-0.5 rounded-full ml-auto" :class="statusClass(store.currentVideo.status)">
@@ -23,10 +23,10 @@
               <div class="w-full max-w-xs">
                 <div class="flex justify-between text-xs text-gray-400 mb-1.5">
                   <span>Uploading video…</span>
-                  <span class="font-semibold text-indigo-400">{{ store.uploadProgress }}%</span>
+                  <span class="font-semibold text-orange-400">{{ store.uploadProgress }}%</span>
                 </div>
                 <div class="w-full rounded-full h-2 overflow-hidden bg-gray-800">
-                  <div class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 transition-all duration-200"
+                  <div class="h-full rounded-full bg-gradient-to-r from-orange-500 to-pink-400 transition-all duration-200"
                     :style="{ width: store.uploadProgress + '%' }"></div>
                 </div>
               </div>
@@ -42,17 +42,17 @@
           <!-- Background cloud sync indicator (video already plays locally, this is just informational) -->
           <p v-if="activeCloudStatus === 'uploading' || activeCloudStatus === 'pending'"
             class="text-xs text-gray-500 flex items-center gap-1.5">
-            <span class="inline-block w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse"></span>
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse"></span>
             Saving to cloud storage in the background…
           </p>
 
           <!-- Toggle original / burned / dubbed -->
           <div v-if="store.currentVideo.burnedVideo?.url || store.currentVideo.dubbedVideo?.url" class="flex gap-2">
             <button @click="activeView = 'original'"
-              :class="activeView === 'original' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-400'"
+              :class="activeView === 'original' ? 'bg-orange-600 text-white' : 'bg-gray-800 text-gray-400'"
               class="flex-1 py-2 rounded-lg text-sm font-medium transition">Original</button>
             <button v-if="store.currentVideo.burnedVideo?.url" @click="activeView = 'burned'"
-              :class="activeView === 'burned' ? 'bg-indigo-600 text-white' : 'bg-gray-800 text-gray-400'"
+              :class="activeView === 'burned' ? 'bg-orange-600 text-white' : 'bg-gray-800 text-gray-400'"
               class="flex-1 py-2 rounded-lg text-sm font-medium transition">Burned ✅</button>
             <button v-if="store.currentVideo.dubbedVideo?.url" @click="activeView = 'dubbed'"
               :class="activeView === 'dubbed' ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-400'"
@@ -73,7 +73,7 @@
           <div v-else class="grid grid-cols-2 gap-2">
             <button v-if="!hasCaptions" @click="handleGenerate"
               :disabled="store.loading"
-              class="col-span-2 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-40 rounded-lg py-2.5 text-sm font-semibold transition">
+              class="col-span-2 bg-orange-600 hover:bg-orange-500 disabled:opacity-40 rounded-lg py-2.5 text-sm font-semibold transition">
               {{ store.loading && step === 'generate' ? "Generating…" : "🎙️ Generate Captions" }}
             </button>
 
@@ -86,7 +86,7 @@
                 </select>
                 <button @click="handleTranslate"
                   :disabled="!targetLang || store.loading"
-                  class="px-4 bg-purple-700 hover:bg-purple-600 disabled:opacity-40 rounded-lg text-sm font-semibold transition">
+                  class="px-4 bg-pink-700 hover:bg-pink-600 disabled:opacity-40 rounded-lg text-sm font-semibold transition">
                   {{ store.loading && step === 'translate' ? "…" : "Translate" }}
                 </button>
               </div>
@@ -194,7 +194,7 @@
                     :class="speakerColor(cap.speaker)">{{ speakerLabel(cap.speaker) }}</span>
                 </div>
                 <textarea v-model="cap.text" rows="2"
-                  class="w-full bg-gray-700 rounded-lg px-3 py-2 text-sm text-white resize-none focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                  class="w-full bg-gray-700 rounded-lg px-3 py-2 text-sm text-white resize-none focus:outline-none focus:ring-1 focus:ring-orange-500"
                   @input="captionsEdited = true" />
               </div>
             </div>
@@ -293,7 +293,7 @@ const fmtTime = (s) => {
 };
 
 const statusClass = (s) => ({
-  uploading:  "bg-indigo-900 text-indigo-300",
+  uploading:  "bg-orange-900 text-orange-300",
   uploaded:   "bg-gray-700 text-gray-300",
   processing: "bg-yellow-800 text-yellow-300",
   captioned:  "bg-blue-800 text-blue-300",
@@ -320,11 +320,11 @@ const speakerLabel = (sp) => (sp || "SPEAKER_1").replace("SPEAKER_", "Speaker ")
 // Cycles through a small fixed palette so the same speaker keeps the same
 // color across the editor without needing a lookup table maintained by hand.
 const SPEAKER_COLORS = [
-  "bg-indigo-900 text-indigo-300",
+  "bg-orange-900 text-orange-300",
   "bg-pink-900 text-pink-300",
   "bg-emerald-900 text-emerald-300",
   "bg-amber-900 text-amber-300",
-  "bg-cyan-900 text-cyan-300",
+  "bg-sky-900 text-sky-300",
   "bg-purple-900 text-purple-300",
 ];
 const speakerColor = (sp) => {

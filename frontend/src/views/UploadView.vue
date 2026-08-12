@@ -11,7 +11,7 @@
         <div class="text-center mb-12">
           <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-sm font-medium mb-6"
             :class="theme.isDark ? 'bg-orange-500/10 border-orange-500/30 text-orange-400' : 'bg-orange-50 border-orange-200 text-orange-600'">
-            🎙️ AI Caption Generator
+            🎙️ AI Dubbing Studio
           </div>
           <h1 class="text-4xl font-extrabold mb-3"
             :class="theme.isDark ? 'text-white' : 'text-gray-900'">Upload Your Video</h1>
@@ -54,7 +54,7 @@
               <div v-if="!file">
                 <div class="text-4xl mb-3">📁</div>
                 <p class="font-semibold mb-1" :class="theme.isDark ? 'text-gray-300' : 'text-gray-700'">Drag & drop or click to select</p>
-                <p class="text-sm" :class="theme.isDark ? 'text-gray-500' : 'text-gray-500'">MP4, AVI, MOV, MKV — up to 100MB and 8 minutes long</p>
+                <p class="text-sm" :class="theme.isDark ? 'text-gray-500' : 'text-gray-500'">MP4, AVI, MOV, MKV — up to 2GB</p>
               </div>
               <div v-else class="flex items-center justify-center gap-3 min-w-0">
                 <span class="text-2xl shrink-0">🎬</span>
@@ -94,10 +94,10 @@
             :class="theme.isDark
               ? 'bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 text-white shadow-lg shadow-orange-500/30'
               : 'bg-gradient-to-r from-orange-600 to-pink-500 hover:from-orange-500 hover:to-pink-400 text-white shadow-md shadow-orange-500/20'">
-            {{ starting ? "Starting…" : "Upload & Generate Captions →" }}
+            {{ starting ? "Starting…" : "Upload Video →" }}
           </button>
           <p class="text-xs text-center" :class="theme.isDark ? 'text-gray-500' : 'text-gray-500'">
-            You'll be taken straight to the video page.
+            You'll be taken straight to the video page to generate captions and dub it.
           </p>
         </div>
 
@@ -185,9 +185,8 @@ const BURN_LIMIT_MIN = 8;
 const CAPTION_LIMIT_MIN = 20;
 
 const uploadLimits = [
-  "Up to 100MB per video",
-  "Up to 8 min videos to burn captions",
-  "can generate captions for up to 20 min videos",
+  "Up to 2GB per video",
+  "AI voice per speaker",
   "Translate to 12 languages",
 ];
 
@@ -242,22 +241,22 @@ const handleUpload = async () => {
 };
 
 const nextSteps = [
-  "Your video is securely uploaded to Cloudinary and a record is created in the database.",
-  "You're redirected to the Video page where you click 'Generate Captions' to trigger AI transcription.",
-  `Groq Whisper large-v3 auto-detects the language and returns timestamped captions — usually in under a minute, up to ${CAPTION_LIMIT_MIN} min for longer files.`,
-  "Edit any line, translate to 12 languages, burn captions into videos up to 8 min long, or download as SRT/TXT.",
+  "Your video is uploaded to Cloudinary and a record is created in the database.",
+  "You're redirected to the Video page where you click 'Generate Captions' to trigger AI transcription and speaker identification.",
+  "Edit any line, translate to 12 languages, then click 'AI Dub' to generate a distinct AI voice per speaker and mix it onto the video.",
+  "Download the final dubbed video once it's ready.",
 ];
 
 const uploadFeatures = [
   { icon: "✏️", title: "Inline Editor",       desc: "Fix any word or rephrase entire lines directly in the browser — no app needed." },
   { icon: "🌍", title: "12-Language Translate", desc: "One click to translate all captions using LLaMA 3.3 70B — context-aware, not word-for-word." },
-  { icon: "🔥", title: "Burn Into Video",      desc: "Permanently embed subtitles on videos up to 8 minutes — plays on any player or social platform." },
-  { icon: "📥", title: "SRT & TXT Export",     desc: "Download clean caption files for YouTube, Premiere Pro, Final Cut, or any subtitle tool." },
+  { icon: "🎭", title: "Per-Speaker AI Voices", desc: "Each character gets their own ElevenLabs voice, kept consistent for the whole video." },
+  { icon: "🎬", title: "Dubbed Video Output",  desc: "Original video, new audio — muxed together and ready to download or share." },
 ];
 
 const formatInfo = [
   { title: "Accepted Video Formats", items: ["MP4", "MOV", "AVI", "MKV", "WEBM"] },
-  { title: "Caption Export Formats", items: ["SRT", "TXT"] },
+  { title: "Voice Pools", items: ["Male voices", "Female voices"] },
   { title: "Output Languages", items: ["Arabic", "French", "Spanish", "German", "English","Urdu", "Hindi", "Chinese", "Turkish", "Russian", "Italian", "Portuguese", "Japanese"] },
 ];
 </script>

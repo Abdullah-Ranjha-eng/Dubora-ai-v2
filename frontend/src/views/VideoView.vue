@@ -46,15 +46,12 @@
             Saving to cloud storage in the background…
           </p>
 
-          <!-- Toggle original / burned / dubbed -->
-          <div v-if="store.currentVideo.burnedVideo?.url || store.currentVideo.dubbedVideo?.url" class="flex gap-2">
+          <!-- Toggle original / dubbed -->
+          <div v-if="store.currentVideo.dubbedVideo?.url" class="flex gap-2">
             <button @click="activeView = 'original'"
               :class="activeView === 'original' ? 'bg-orange-600 text-white' : 'bg-gray-800 text-gray-400'"
               class="flex-1 py-2 rounded-lg text-sm font-medium transition">Original</button>
-            <button v-if="store.currentVideo.burnedVideo?.url" @click="activeView = 'burned'"
-              :class="activeView === 'burned' ? 'bg-orange-600 text-white' : 'bg-gray-800 text-gray-400'"
-              class="flex-1 py-2 rounded-lg text-sm font-medium transition">Burned ✅</button>
-            <button v-if="store.currentVideo.dubbedVideo?.url" @click="activeView = 'dubbed'"
+            <button @click="activeView = 'dubbed'"
               :class="activeView === 'dubbed' ? 'bg-pink-600 text-white' : 'bg-gray-800 text-gray-400'"
               class="flex-1 py-2 rounded-lg text-sm font-medium transition">Dubbed 🎙️</button>
           </div>
@@ -67,7 +64,7 @@
                finished video to work with, so we gate the whole sequence on
                that first instead of racing it. -->
           <div v-if="!videoReady" class="rounded-lg py-2.5 text-sm text-center text-gray-500 bg-gray-900/60 border border-gray-800">
-            <span v-if="store.uploadFailed">Video upload failed — captions and burning aren't available until it's re-uploaded.</span>
+            <span v-if="store.uploadFailed">Video upload failed — captions and dubbing aren't available until it's re-uploaded.</span>
             <span v-else>Waiting for the video to finish uploading before captions can be generated…</span>
           </div>
           <div v-else class="grid grid-cols-2 gap-2">
@@ -91,50 +88,14 @@
                 </button>
               </div>
 
-              <!-- Burn -->
-              <button @click="handleBurn"
-                :disabled="store.loading"
-                class="bg-orange-700 hover:bg-orange-600 disabled:opacity-40 rounded-lg py-2.5 text-sm font-semibold transition">
-                {{ store.loading && step === 'burn' ? "Burning…" : "🔥 Burn Captions" }}
+              <!-- Dub — voice casting happens inline per-line in the Caption
+                   Editor now (see speakerVoiceMap), so this just saves
+                   whatever's currently picked there and dubs. -->
+              <button @click="handleDub"
+                :disabled="store.dubbing"
+                class="col-span-2 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-500 hover:to-pink-500 disabled:opacity-40 rounded-lg py-2.5 text-sm font-semibold transition">
+                {{ store.dubbing ? "Dubbing… (this can take a minute)" : "🎭 AI Dub" }}
               </button>
-
-              <!-- Dub -->
-              <button @click="showCastPanel = !showCastPanel"
-                class="bg-pink-700 hover:bg-pink-600 rounded-lg py-2.5 text-sm font-semibold transition">
-                🎙️ Cast & Dub
-              </button>
-
-              <!-- Speaker → voice casting panel -->
-              <div v-if="showCastPanel" class="col-span-2 bg-gray-800/60 border border-gray-700 rounded-xl p-4 space-y-3">
-                <p class="text-xs text-gray-400">
-                  {{ speakers.length }} speaker{{ speakers.length === 1 ? '' : 's' }} detected in
-                  {{ targetLang || store.currentVideo.detectedLanguage || 'the original language' }}.
-                  Pick a voice for each, then dub.
-                </p>
-
-                <div v-for="sp in speakers" :key="sp" class="flex items-center gap-2">
-                  <span class="text-xs font-medium text-gray-300 w-24 shrink-0 truncate">{{ speakerLabel(sp) }}</span>
-                  <select v-model="speakerVoiceMap[sp]"
-                    class="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-1.5 text-sm text-white">
-                    <option v-for="v in store.voices" :key="v.voiceId" :value="v.voiceId">
-                      {{ v.name }} {{ v.gender && v.gender !== 'unknown' ? `(${v.gender})` : '' }}
-                    </option>
-                  </select>
-                </div>
-
-                <div class="flex gap-2 pt-1">
-                  <button @click="handleSaveCasting"
-                    :disabled="store.loading"
-                    class="flex-1 bg-gray-700 hover:bg-gray-600 disabled:opacity-40 rounded-lg py-2 text-xs font-semibold transition">
-                    Save Casting
-                  </button>
-                  <button @click="handleDub"
-                    :disabled="store.dubbing"
-                    class="flex-1 bg-pink-600 hover:bg-pink-500 disabled:opacity-40 rounded-lg py-2 text-xs font-semibold transition">
-                    {{ store.dubbing ? "Dubbing… (this can take a minute)" : "Generate Dub →" }}
-                  </button>
-                </div>
-              </div>
 
               <!-- Download -->
               <div class="relative col-span-2" ref="dlMenu">
@@ -188,10 +149,32 @@
               class="bg-gray-800 rounded-xl p-3 flex gap-3 items-start">
               <span class="text-xs text-gray-500 shrink-0 mt-0.5 w-8 text-right">{{ i + 1 }}</span>
               <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 mb-1">
+                <div class="flex items-center gap-2 mb-1 flex-wrap">
                   <span class="text-xs text-indigo-400">{{ fmtTime(cap.start) }} → {{ fmtTime(cap.end) }}</span>
-                  <span v-if="cap.speaker" class="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
-                    :class="speakerColor(cap.speaker)">{{ speakerLabel(cap.speaker) }}</span>
+
+                  <!-- Editable speaker — pick an existing speaker or add a
+                       new one. Options always come from `speakers` (derived
+                       live from editableCaptions) or the auto-generated
+                       nextSpeakerLabel(), so a line can never end up on a
+                       speaker label that conflicts with / duplicates
+                       another one already in the doc. -->
+                  <select :value="cap.speaker || 'SPEAKER_1'" @change="onSpeakerChange(cap, $event.target.value)"
+                    class="text-[10px] font-medium rounded-full px-2 py-0.5 border-0 focus:outline-none focus:ring-1 focus:ring-orange-500"
+                    :class="speakerColor(cap.speaker)">
+                    <option v-for="sp in speakers" :key="sp" :value="sp">{{ speakerLabel(sp) }}</option>
+                    <option value="__new__">+ New speaker</option>
+                  </select>
+
+                  <!-- Voice for this speaker — Male 1/2, Female 1/2 (from
+                       whichever voices the /voices catalog returned).
+                       Changing it here updates speakerVoiceMap for every
+                       line spoken by this same speaker, since a voice is
+                       cast per-speaker, not per-line. -->
+                  <select :value="speakerVoiceMap[cap.speaker || 'SPEAKER_1']"
+                    @change="onVoiceChange(cap.speaker || 'SPEAKER_1', $event.target.value)"
+                    class="text-xs bg-gray-700 border border-gray-600 rounded-lg px-2 py-0.5 text-white focus:outline-none focus:ring-1 focus:ring-orange-500">
+                    <option v-for="o in voiceOptions" :key="o.voiceId" :value="o.voiceId">{{ o.label }}</option>
+                  </select>
                 </div>
                 <textarea v-model="cap.text" rows="2"
                   class="w-full bg-gray-700 rounded-lg px-3 py-2 text-sm text-white resize-none focus:outline-none focus:ring-1 focus:ring-orange-500"
@@ -219,24 +202,21 @@ const videoId = route.params.id;
 
 const LANGUAGES = ["Arabic","French","Spanish","German","English","Urdu","Hindi","Chinese","Turkish","Russian","Italian","Portuguese","Japanese"];
 
-const activeView = ref("original"); // "original" | "burned" | "dubbed"
+const activeView = ref("original"); // "original" | "dubbed"
 const targetLang = ref("");
 const step = ref("");
 const successMsg = ref("");
 const showDlMenu = ref(false);
 const captionsEdited = ref(false);
 const editableCaptions = ref([]);
-const showCastPanel = ref(false);
 const speakerVoiceMap = ref({}); // { SPEAKER_1: voiceId, ... }
 
 const activeVideoUrl = computed(() => {
-  if (activeView.value === "burned") return store.currentVideo?.burnedVideo?.url;
   if (activeView.value === "dubbed") return store.currentVideo?.dubbedVideo?.url;
   return store.currentVideo?.originalVideo?.url;
 });
 
 const activeCloudStatus = computed(() => {
-  if (activeView.value === "burned") return store.currentVideo?.burnedVideo?.cloudStatus;
   if (activeView.value === "dubbed") return store.currentVideo?.dubbedVideo?.cloudStatus;
   return store.currentVideo?.originalVideo?.cloudStatus;
 });
@@ -262,24 +242,23 @@ const videoReady = computed(() => !!activeVideoUrl.value);
 // array (e.g. a doc created before every segment was filtered out, or one
 // a background pass upserted without content yet) — every gate below needs
 // to check there's actually something in it, not just that the object
-// exists, or the UI shows Translate/Burn with nothing to act on and the
+// exists, or the UI shows Translate with nothing to act on and the
 // server correctly 404s when you click them.
 const hasCaptions = computed(() => !!store.captions?.captions?.length);
 
-// Poll while either asset is still syncing to Cloudinary in the background,
-// so the badge above clears and the URL swaps over automatically once done.
+// Poll while the original video is still syncing to Cloudinary in the
+// background, so the badge above clears and the URL swaps over
+// automatically once done.
 let pollTimer = null;
 const startPollingIfNeeded = () => {
-  const stillSyncing = ["pending", "uploading"].includes(store.currentVideo?.originalVideo?.cloudStatus)
-    || ["pending", "uploading"].includes(store.currentVideo?.burnedVideo?.cloudStatus);
+  const stillSyncing = ["pending", "uploading"].includes(store.currentVideo?.originalVideo?.cloudStatus);
 
   if (pollTimer) { clearInterval(pollTimer); pollTimer = null; }
   if (!stillSyncing) return;
 
   pollTimer = setInterval(async () => {
     await store.refreshVideoQuietly(videoId);
-    const done = !["pending", "uploading"].includes(store.currentVideo?.originalVideo?.cloudStatus)
-      && !["pending", "uploading"].includes(store.currentVideo?.burnedVideo?.cloudStatus);
+    const done = !["pending", "uploading"].includes(store.currentVideo?.originalVideo?.cloudStatus);
     if (done && pollTimer) { clearInterval(pollTimer); pollTimer = null; }
   }, 4000);
 };
@@ -304,8 +283,8 @@ const statusClass = (s) => ({
 }[s] || "bg-gray-700 text-gray-300");
 
 // Distinct speakers found in the currently-loaded caption doc, in first-
-// appearance order — drives both the caption editor's badges and the
-// casting panel's per-speaker voice pickers.
+// appearance order — drives the caption editor's speaker dropdowns and the
+// per-speaker voice pickers.
 const speakers = computed(() => {
   const seen = [];
   for (const c of editableCaptions.value) {
@@ -316,6 +295,31 @@ const speakers = computed(() => {
 });
 
 const speakerLabel = (sp) => (sp || "SPEAKER_1").replace("SPEAKER_", "Speaker ");
+
+// Generates a brand-new speaker label that can't collide with one already
+// in the doc — checks membership rather than just using speakers.length+1,
+// since a doc could have gaps (e.g. SPEAKER_1 and SPEAKER_3 only, after
+// manual reassignment merged SPEAKER_2 into one of the others).
+const nextSpeakerLabel = () => {
+  let n = speakers.value.length + 1;
+  while (speakers.value.includes(`SPEAKER_${n}`)) n++;
+  return `SPEAKER_${n}`;
+};
+
+// Reassigns a caption line to a different (or brand-new) speaker. Only ever
+// writes a label that's either already known (picked from the dropdown, so
+// it exactly matches an existing speaker) or freshly minted by
+// nextSpeakerLabel() — never free-typed — so speaker identities can't drift
+// into near-duplicates ("Speaker 2" vs "SPEAKER_2" vs "speaker2") the way a
+// text input would allow.
+const onSpeakerChange = (cap, value) => {
+  const speaker = value === "__new__" ? nextSpeakerLabel() : value;
+  cap.speaker = speaker;
+  if (!(speaker in speakerVoiceMap.value)) {
+    speakerVoiceMap.value[speaker] = voiceOptions.value[0]?.voiceId || "";
+  }
+  captionsEdited.value = true;
+};
 
 // Cycles through a small fixed palette so the same speaker keeps the same
 // color across the editor without needing a lookup table maintained by hand.
@@ -332,6 +336,24 @@ const speakerColor = (sp) => {
   return SPEAKER_COLORS[idx >= 0 ? idx % SPEAKER_COLORS.length : 0];
 };
 
+// Simplified voice picker: up to 2 male + 2 female voices from whatever the
+// /voices catalog returned (real ElevenLabs account voices, or the curated
+// fallback — see backend/utils/elevenlabs.js), labeled "Male 1"/"Male 2"/
+// "Female 1"/"Female 2" instead of showing raw ElevenLabs voice names.
+const voiceOptions = computed(() => {
+  const byGender = (g) => store.voices.filter((v) => (v.gender || "").toLowerCase() === g).slice(0, 2);
+  const label = (list, prefix) => list.map((v, i) => ({ voiceId: v.voiceId, label: `${prefix} ${i + 1}` }));
+  return [...label(byGender("male"), "Male"), ...label(byGender("female"), "Female")];
+});
+
+// Casts a voice for every line spoken by `speaker` at once — voice is a
+// per-speaker property (see Caption.speakerVoices on the backend), not
+// per-line, so changing it on one caption row updates every other row with
+// the same speaker too.
+const onVoiceChange = (speaker, voiceId) => {
+  speakerVoiceMap.value[speaker] = voiceId;
+};
+
 watch(() => store.captions, (val) => {
   if (val?.captions?.length) {
     editableCaptions.value = val.captions.map((c) => ({ ...c }));
@@ -339,12 +361,12 @@ watch(() => store.captions, (val) => {
 
     // Seed the voice picker from whatever's already cast for this caption
     // doc; any speaker without a saved voice yet falls back to the first
-    // available catalog voice so the dropdown is never empty.
+    // available voice option so the dropdown is never empty.
     const saved = new Map((val.speakerVoices || []).map((sv) => [sv.speaker, sv.voiceId]));
     const map = {};
     for (const c of val.captions) {
       const sp = c.speaker || "SPEAKER_1";
-      if (!(sp in map)) map[sp] = saved.get(sp) || store.voices[0]?.voiceId || "";
+      if (!(sp in map)) map[sp] = saved.get(sp) || voiceOptions.value[0]?.voiceId || "";
     }
     speakerVoiceMap.value = map;
   } else {
@@ -371,16 +393,10 @@ const handleTranslate = async () => {
   if (ok) flash(`Translated to ${targetLang.value}!`);
 };
 
-const handleBurn = async () => {
-  step.value = "burn";
-  const lang = targetLang.value || null;
-  const result = await store.burnCaptions(videoId, lang);
-  if (result) {
-    activeView.value = "burned";
-    flash("Captions burned into video!");
-  }
-};
-
+// Saves whatever voices are currently picked in the caption editor's
+// per-line dropdowns. Called internally by handleDub right before dubbing
+// so what the user sees cast is exactly what gets used — no separate "Save
+// Casting" step needed anymore.
 const handleSaveCasting = async () => {
   const language = targetLang.value || store.currentVideo.detectedLanguage || "en";
   const speakerVoicesArray = Object.entries(speakerVoiceMap.value).map(([speaker, voiceId]) => ({
@@ -388,20 +404,15 @@ const handleSaveCasting = async () => {
     voiceId,
     name: store.voices.find((v) => v.voiceId === voiceId)?.name || "",
   }));
-  const ok = await store.setSpeakerVoices(videoId, language, speakerVoicesArray);
-  if (ok) flash("Voice casting saved!");
+  return store.setSpeakerVoices(videoId, language, speakerVoicesArray);
 };
 
 const handleDub = async () => {
-  // Casting is saved as part of the dub request server-side too (auto-cast
-  // fallback), but saving explicitly first means what the user sees in the
-  // picker is exactly what gets used, even if they never hit "Save Casting".
   await handleSaveCasting();
   const language = targetLang.value || store.currentVideo.detectedLanguage || "en";
   const result = await store.dubVideo(videoId, language);
   if (result) {
     activeView.value = "dubbed";
-    showCastPanel.value = false;
     flash("Video dubbed successfully!");
   }
 };

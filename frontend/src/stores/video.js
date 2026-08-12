@@ -218,25 +218,6 @@ export const useVideoStore = defineStore("video", () => {
     }
   };
 
-  const burnCaptions = async (videoId, language = null) => {
-    loading.value = true;
-    error.value = null;
-    try {
-      const body = language ? { language } : {};
-      const { data } = await api.post(`/videos/${videoId}/captions/burn`, body);
-      if (currentVideo.value) {
-        currentVideo.value.burnedVideo = data.burnedVideo;
-        currentVideo.value.status = "burned";
-      }
-      return data.burnedVideo;
-    } catch (err) {
-      error.value = err.response?.data?.message || "Burn failed.";
-      return null;
-    } finally {
-      loading.value = false;
-    }
-  };
-
   const downloadCaptions = (videoId, format = "srt", language = null) => {
     // Must build the base URL the same way api/axios.js does (strip
     // trailing slash, always append /api/v1) — this used to fall back to
@@ -308,7 +289,7 @@ export const useVideoStore = defineStore("video", () => {
     voices, dubbing,
     fetchVideos, fetchVideo, refreshVideoQuietly, startUpload, deleteVideo,
     generateCaptions, fetchCaptions, updateCaptions,
-    translateCaptions, burnCaptions, downloadCaptions,
+    translateCaptions, downloadCaptions,
     fetchVoices, setSpeakerVoices, dubVideo,
   };
 });

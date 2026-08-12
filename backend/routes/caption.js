@@ -5,8 +5,7 @@ import {
   getVideoCaptions,
   updateCaptions,
   deleteCaptions,
-  burnCaptions,
-  downloadCaptions,        // ← ADD
+  downloadCaptions,
 } from "../controllers/captionController.js";
 import { transcribeFromAudio } from "../controllers/transcribeController.js";
 import { identifyUser } from "../middlewares/auth.js";
@@ -25,8 +24,7 @@ router.route("/videos/:videoId/captions").post(identifyUser, generateCaptions);
 router.route("/videos/:videoId/captions").get(identifyUser, getVideoCaptions);
 router.route("/videos/:videoId/captions").put(identifyUser, updateCaptions);
 router.route("/videos/:videoId/captions").delete(identifyUser, deleteCaptions);
-router.route("/videos/:videoId/captions/burn").post(identifyUser, burnCaptions);
-router.route("/videos/:videoId/captions/download").get(identifyUser, downloadCaptions); // ← ADD
+router.route("/videos/:videoId/captions/download").get(identifyUser, downloadCaptions);
 router.route("/videos/:videoId/captions/from-audio").post(identifyUser, uploadAudio.single("audio"), transcribeFromAudio);
 
 export default router;

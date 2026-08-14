@@ -8,6 +8,7 @@ import ErrorHandler from "../utils/errorHandler.js";
 import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import { transcribeAudioFile } from "../utils/whisper.js";
 import { ownerFields, isOwner } from "../utils/ownership.js";
+import { castMissingSpeakers } from "../utils/elevenlabs.js";
 
 // ── Transcribe from client-extracted audio => POST /api/v1/videos/:videoId/captions/from-audio ──
 //
@@ -40,11 +41,16 @@ export const transcribeFromAudio = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler("Could not generate captions. Try a clearer audio.", 400));
 
   // Same upsert shape as generateCaptions, so a manual "Generate Captions"
-  // click later (e.g. if this background pass failed) behaves identically.
+  // click later (e.g. if this background pass failed) behaves identically —
+  // including casting a distinct voice per diarized speaker immediately
+  // (see castMissingSpeakers in generateCaptions for why).
+  const speakers = [...new Set(captions.map((c) => c.speaker || "SPEAKER_1"))];
+
   let captionDoc = await Caption.findOne({ video: video._id, ...ownerFields(req) });
   if (captionDoc) {
     captionDoc.captions = captions;
     captionDoc.language = language;
+    captionDoc.speakerVoices = castMissingSpeakers(captionDoc.speakerVoices, speakers);
     await captionDoc.save();
   } else {
     captionDoc = await Caption.create({
@@ -52,6 +58,7 @@ export const transcribeFromAudio = catchAsyncErrors(async (req, res, next) => {
       ...ownerFields(req),
       language,
       captions,
+      speakerVoices: castMissingSpeakers([], speakers),
     });
   }
 

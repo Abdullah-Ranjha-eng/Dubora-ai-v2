@@ -50,19 +50,64 @@ export const autoAssignVoices = (speakerLabels) =>
     name: DEFAULT_VOICES[i % DEFAULT_VOICES.length].name,
   }));
 
+// Fills in a voice for any speaker in `speakerLabels` that isn't already
+// cast in `existingSpeakerVoices`, preserving whatever's already assigned
+// and only minting new casts for speakers that are actually missing.
+// `speakerLabels` order (first-appearance order, from diarization) is what
+// drives which DEFAULT_VOICES slot a newly-seen speaker gets, so distinct
+// speakers alternate male/female (Adam, Rachel, Josh, Bella, ...) instead
+// of every speaker silently defaulting to the same voice.
+//
+// Shared by captionController/transcribeController (cast immediately once
+// real diarization — pyannote HF Space or the Groq heuristic — has told us
+// how many distinct speakers there are, so the editor's per-speaker voice
+// picker is never just "everyone is Male 1" by default) and dubController
+// (last-resort safety net right before synthesis, for casts made before
+// this existed or a speaker added manually after generation).
+export const castMissingSpeakers = (existingSpeakerVoices, speakerLabels) => {
+  const castMap = new Map((existingSpeakerVoices || []).map((sv) => [sv.speaker, sv]));
+  const missing = speakerLabels.filter((sp) => !castMap.has(sp));
+  if (missing.length) {
+    for (const cast of autoAssignVoices(missing)) castMap.set(cast.speaker, cast);
+  }
+  return speakerLabels.map((sp) => castMap.get(sp)).filter(Boolean);
+};
+
 // Synthesizes one line of dialogue and returns raw MP3 bytes. eleven_multilingual_v2
 // is the model used (not the default eleven_monolingual_v1) specifically
 // because dubbing targets all 12+ of this app's supported languages, most
 // of which the monolingual (English-only) model can't speak correctly.
 export const synthesizeSpeech = async (text, voiceId) => {
-  const { data } = await client().post(
-    `/text-to-speech/${voiceId}`,
-    {
-      text,
-      model_id: "eleven_multilingual_v2",
-      voice_settings: { stability: 0.5, similarity_boost: 0.75 },
-    },
-    { responseType: "arraybuffer" }
-  );
-  return Buffer.from(data);
+  try {
+    const { data } = await client().post(
+      `/text-to-speech/${voiceId}`,
+      {
+        text,
+        model_id: "eleven_multilingual_v2",
+        voice_settings: { stability: 0.5, similarity_boost: 0.75 },
+      },
+      { responseType: "arraybuffer" }
+    );
+    return Buffer.from(data);
+  } catch (err) {
+    // Because responseType is "arraybuffer" (needed for the success case —
+    // raw MP3 bytes), axios ALSO forces error response bodies into an
+    // ArrayBuffer instead of parsing them as JSON, even though ElevenLabs
+    // sends a normal JSON error body (e.g. {"detail":{"status":
+    // "quota_exceeded", "message": "..."}}). Left alone, every failure here
+    // surfaced only as a bare "Request failed with status code 402" with no
+    // indication of WHY — decode and re-throw with the real reason instead.
+    if (err.response?.data) {
+      try {
+        const decoded = JSON.parse(Buffer.from(err.response.data).toString("utf8"));
+        const reason = decoded?.detail?.message || decoded?.detail?.status || JSON.stringify(decoded);
+        throw new Error(`ElevenLabs ${err.response.status}: ${reason}`);
+      } catch (parseErr) {
+        // Body wasn't JSON (or decoding itself failed) — fall through to
+        // the original error rather than hiding it behind a parse failure.
+        if (parseErr.message?.startsWith("ElevenLabs ")) throw parseErr;
+      }
+    }
+    throw err;
+  }
 };

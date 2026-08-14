@@ -45,7 +45,10 @@ import translateRoutes from "./routes/translate.js";
 import dubRoutes from "./routes/dub.js";
 
 process.on("uncaughtException", (err) => {
-  console.log(`Error: ${err.message}`);
+  // CHANGED: log the full stack, not just err.message — the message alone
+  // gives no way to tell WHICH line/module actually failed. This matters a
+  // lot here specifically because...
+  console.error("[uncaughtException]", err.stack || err);
   if (!process.env.VERCEL) process.exit(1);
 });
 
@@ -123,7 +126,18 @@ if (!process.env.VERCEL) {
     });
 
     process.on("unhandledRejection", (err) => {
-      console.log(`Error: ${err.message}`);
+      // ...an unhandledRejection ANYWHERE in the app (a stray promise in
+      // the video-download stream, the @gradio/client connection during a
+      // Zero-GPU cold start, etc.) kills the ENTIRE server process here —
+      // not just the one in-flight request. Every client connected at that
+      // moment (including whatever request triggered it) sees its
+      // connection abruptly severed, which is exactly what shows up in the
+      // browser as a generic "aborted" network error, with no indication
+      // it was actually a full server crash. Logging the full stack (not
+      // just err.message, which was here before) is what makes it possible
+      // to actually find and fix the real source next time this fires,
+      // instead of just seeing "aborted" with no further clues.
+      console.error("[unhandledRejection]", err.stack || err);
       server.close(() => process.exit(1));
     });
   });

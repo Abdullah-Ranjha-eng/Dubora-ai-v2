@@ -13,7 +13,7 @@ import catchAsyncErrors from "../middlewares/catchAsyncErrors.js";
 import { safeUnlink } from "../utils/localStorage.js";
 import { getLocalOriginalPath } from "../utils/videoSource.js";
 import { ownerFields, isOwner } from "../utils/ownership.js";
-import { listVoices, autoAssignVoices, synthesizeSpeech } from "../utils/elevenlabs.js";
+import { listVoices, castMissingSpeakers, synthesizeSpeech } from "../utils/elevenlabs.js";
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 ffmpeg.setFfprobePath(ffprobePath.path);
@@ -85,13 +85,12 @@ export const dubVideo = catchAsyncErrors(async (req, res, next) => {
   // never hard-blocks on the user visiting the voice picker first — they
   // can always re-cast and re-dub afterward via setSpeakerVoices above.
   const speakers = [...new Set(captionDoc.captions.map((c) => c.speaker || "SPEAKER_1"))];
+  captionDoc.speakerVoices = castMissingSpeakers(captionDoc.speakerVoices, speakers);
+  await captionDoc.save();
+
+  // Used by the synthesis loop below to look up each caption line's cast
+  // voice by speaker label.
   const castMap = new Map(captionDoc.speakerVoices.map((sv) => [sv.speaker, sv]));
-  const missing = speakers.filter((s) => !castMap.has(s));
-  if (missing.length) {
-    for (const cast of autoAssignVoices(missing)) castMap.set(cast.speaker, cast);
-    captionDoc.speakerVoices = [...castMap.values()];
-    await captionDoc.save();
-  }
 
   video.status = "dubbing";
   await video.save();

@@ -10,6 +10,7 @@ import ffmpegPath from "ffmpeg-static";
 import { transcribeAudioFile } from "../utils/whisper.js";
 import { ownerFields, isOwner } from "../utils/ownership.js";
 import { getLocalOriginalPath } from "../utils/videoSource.js";
+import { castMissingSpeakers } from "../utils/elevenlabs.js";
 
 
 ffmpeg.setFfmpegPath(ffmpegPath);
@@ -46,7 +47,9 @@ export const generateCaptions = catchAsyncErrors(async (req, res, next) => {
     ffmpeg(sourceVideo)
       .output(tmpAudio)
       .audioCodec("libmp3lame")
-      .audioBitrate("64k")       // low bitrate = smaller file
+      .audioBitrate("192k")      // see accuracy notes: 64k measurably hurt
+                                 // both diarization AND word-level Whisper
+                                 // detection on higher-quality sources
       .noVideo()                 // strip video, audio only
       .on("end", resolve)
       .on("error", reject)
@@ -77,10 +80,18 @@ export const generateCaptions = catchAsyncErrors(async (req, res, next) => {
   if (captions.length === 0)
     return next(new ErrorHandler("Could not generate captions. Try a clearer audio.", 400));
 
+  // Cast a voice for every speaker diarization found (pyannote HF Space,
+  // falling back to the Groq text heuristic — see utils/diarize.js) right
+  // away, so the caption editor's per-speaker voice picker shows a distinct
+  // (alternating male/female) voice per speaker immediately instead of
+  // defaulting every speaker to the same one until the user visits Dub.
+  const speakers = [...new Set(captions.map((c) => c.speaker || "SPEAKER_1"))];
+
   let captionDoc = await Caption.findOne({ video: video._id, ...ownerFields(req) });
   if (captionDoc) {
     captionDoc.captions = captions;
     captionDoc.language = language;
+    captionDoc.speakerVoices = castMissingSpeakers(captionDoc.speakerVoices, speakers);
     await captionDoc.save();
   } else {
     captionDoc = await Caption.create({
@@ -88,6 +99,7 @@ export const generateCaptions = catchAsyncErrors(async (req, res, next) => {
       ...ownerFields(req),
       language,
       captions,
+      speakerVoices: castMissingSpeakers([], speakers),
     });
   }
 

@@ -175,7 +175,7 @@ const theme = useThemeStore();
 const toolLinks = [
   { label: "Generate Captions", to: "/upload" },
   { label: "Translate Subtitles", to: "/upload" },
-  { label: "Burn Captions", to: "/upload" },
+  { label: "dub Captions", to: "/upload" },
   { label: "Download SRT / TXT", to: "/upload" },
   { label: "View All Tools", to: "/about" },
 ];

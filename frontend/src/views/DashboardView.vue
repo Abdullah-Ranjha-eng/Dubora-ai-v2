@@ -91,7 +91,7 @@
                   <!-- Status badge -->
                   <span class="absolute top-3 right-3 text-xs px-2.5 py-1 rounded-full font-semibold border"
                     :class="statusClass(v.status)">
-                    {{ v.status }}
+                    {{ displayStatus(v.status) }}
                   </span>
 
                   <!-- Play overlay -->
@@ -109,7 +109,7 @@
                 </RouterLink>
                 <div class="flex items-center justify-between">
                   <span class="text-xs" :class="theme.isDark ? 'text-gray-500' : 'text-gray-500'">
-                    {{ v.status === 'burned' ? '✅ Ready to share' : v.status === 'captioned' ? '📝 Edit or translate' : v.status === 'translated' ? '🌍 Ready to burn' : '⬆️ Uploaded' }}
+                    {{ displayStatus(v.status) === 'burned' ? '✅ Ready to share' : v.status === 'captioned' ? '📝 Edit or translate' : v.status === 'translated' ? '🌍 Ready to burn' : '⬆️ Uploaded' }}
                   </span>
                   <!-- NEW — bigger, always visible -->
 <button @click.prevent="confirmDelete(v._id)"
@@ -158,19 +158,31 @@ const theme = useThemeStore();
 const activeTab = ref("all");
 const statusTabs = ["all", "uploaded", "captioned", "translated", "burned"];
 
+// Backend deliberately keeps "dubbed"/"dubbing" as their own statuses
+// (see models/video.js — a video can be dubbed and/or have captions burned
+// in independently, they're two different output artifacts). But the
+// dashboard only has tabs/stats for uploaded/captioned/translated/burned,
+// so a "dubbed" video fell through every tab and stat uncounted, and its
+// badge just showed the raw "dubbed" string instead of anything meaningful.
+// Since both are "finished, ready to use" terminal states from a dashboard
+// point of view, fold dubbed/dubbing into the same "burned" bucket for
+// display purposes only — the real status is untouched in the database and
+// in store.videos, this only affects what's shown here.
+const displayStatus = (status) => (status === "dubbed" || status === "dubbing" ? "burned" : status);
+
 onMounted(() => store.fetchVideos());
 
 const filteredVideos = computed(() =>
   activeTab.value === "all"
     ? store.videos
-    : store.videos.filter(v => v.status === activeTab.value)
+    : store.videos.filter(v => displayStatus(v.status) === activeTab.value)
 );
 
 const quickStats = computed(() => [
   { label: "Total Videos", value: store.videos.length },
-  { label: "Captioned",    value: store.videos.filter(v => ["captioned","translated","burned"].includes(v.status)).length },
-  { label: "Translated",   value: store.videos.filter(v => ["translated","burned"].includes(v.status)).length },
-  { label: "Burned",       value: store.videos.filter(v => v.status === "burned").length },
+  { label: "Captioned",    value: store.videos.filter(v => ["captioned","translated","burned","dubbing","dubbed"].includes(v.status)).length },
+  { label: "Translated",   value: store.videos.filter(v => ["translated","burned","dubbing","dubbed"].includes(v.status)).length },
+  { label: "Burned",       value: store.videos.filter(v => displayStatus(v.status) === "burned").length },
 ]);
 
 const statusClass = (s) => ({
@@ -179,7 +191,7 @@ const statusClass = (s) => ({
   captioned:  "bg-blue-900/80  text-blue-300  border-blue-700",
   translated: "bg-purple-900/80 text-purple-300 border-purple-700",
   burned:     "bg-green-900/80 text-green-300  border-green-700",
-}[s] || "bg-gray-800/80 text-gray-300 border-gray-700");
+}[displayStatus(s)] || "bg-gray-800/80 text-gray-300 border-gray-700");
 
 const confirmDelete = (id) => {
   if (confirm("Delete this video? This cannot be undone.")) store.deleteVideo(id);

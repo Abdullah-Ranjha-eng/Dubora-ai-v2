@@ -65,7 +65,7 @@
                 ? 'bg-orange-600 text-white shadow-md shadow-orange-500/30'
                 : (theme.isDark ? 'bg-white/5 border border-white/10 text-gray-400 hover:bg-white/10' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50')">
               {{ tab === 'all' ? 'All Videos' : tab.charAt(0).toUpperCase() + tab.slice(1) }}
-              <span class="ml-1 opacity-70">({{ tab === 'all' ? store.videos.length : store.videos.filter(v => v.status === tab).length }})</span>
+              <span class="ml-1 opacity-70">({{ tab === 'all' ? store.videos.length : store.videos.filter(v => displayStatus(v.status) === tab).length }})</span>
             </button>
           </div>
 
